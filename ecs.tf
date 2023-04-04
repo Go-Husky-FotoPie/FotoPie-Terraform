@@ -6,7 +6,7 @@ resource "aws_ecs_cluster" "test" {
 
 #create cloudwatch 
 resource "aws_cloudwatch_log_group" "log-group" {
-    name = "/ecs/fotopie"
+    name = "/ecs/foto"
   
 }
 
@@ -16,21 +16,26 @@ resource "aws_cloudwatch_log_stream" "log_stream" {
 }
 
 #create task definition 
-resource "aws_ecs_task_definition" "task-" {
-    family = "task-"
+resource "aws_ecs_task_definition" "task-foto" {
+    family = "task-foto"
     network_mode = "awsvpc"
     requires_compatibilities = ["FARGATE"]
-    cpu = "1024"
+    cpu   = "1024"
     memory = "2048"
-    execution_role_arn = "arn:aws:iam::190177667055:role/ecsTaskExecutionRol"
+
+    execution_role_arn = "arn:aws:iam::190177667055:role/ecsTaskExecutionRole"
+
+    task_role_arn  = "arn:aws:iam::190177667055:role/ecsTaskExecutionRole"
 
     container_definitions = jsonencode([
         {
         name      = "tmp3"
         image     = "190177667055.dkr.ecr.us-east-1.amazonaws.com/tmp3:latest"
+        
         cpu       = 10
         memory    = 512
         essential = true
+        
         environment = [
                 {
                     "name": "ACCESS_TOKEN_SECRET_PUBLIC",
@@ -53,13 +58,57 @@ resource "aws_ecs_task_definition" "task-" {
                     "name": "REFRESH_TOKEN_SECRET_PUBLIC",
                     "value": "-----BEGIN PUBLIC KEY-----MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAh8N7XybcGeueFhA96RNkXrtH2XrKsJxD4FX9WKl0wGshPyXh4k+gvN904TU6yqGhqLBvStXHkK674XARougv/E0RTV5AhEgWSYggRA954svm63UiqfHv77ghof8tY58aT6Ov0rA+2Y2K046yPb2w2WkoXgaYssPCsS+PEdZRH56uO3CCrX/QVSJZ52UuUant2V+vZr37M/0iQWmI2x3pOsIsxqLkj9s0cyK5+xBHKrwpRlYxOPD75dYK6WpEEJzhieO68SbwkIViCLMu48AmjHE6XJmRnqAVmfO2f/fGTx/AgFCnoIWO3bxrQRWLj7KL0s1ucZu0PWVUHZm8PsFviY3D1yDh5RTXBglRBPAjqVOTX9R6aQiciGlrOyOrgFbfPAm/f617fyK+fLCUf1tPBGyTNnhCC+PaOXmGBiysZZGWLpMnc7JY0ovruDd6vRegugaE4rDyT0ip/JSU3VM/de1rue6Dmr4tVhdQBwpQBdRZ3KfkNvtc9QVTlfbd8uhd340TA1gJO2HXGAFVE5z8CAfIJbJN9gRKXWIz7NGHpHr1iSdVJin9qU0uE+ZO9vWKFROmX5E8LjT2WLhqovc0y88RyotiyLgPb4v6Wb0MBn1c9Hvzl1Nz+UjzHA7V+Dx/aqqcJx+KUp/1buM2b7N73J3W9YPq/ZQiBbkKah3EOiECAwEAAQ==-----END PUBLIC KEY-----"
                 },
-                
-                
+
             ],
+        logConfiguration= {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/foto",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+
+        
+
+        requiresAttributes = [
+            {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+        ]
+        
+
+
         portMappings = [
             {
             containerPort = 9090
             hostPort      = 9090
+            protocol = "tcp",
             }
       ]
     }])
@@ -67,10 +116,14 @@ resource "aws_ecs_task_definition" "task-" {
 
 
 #ecs-service
+
+
 resource "aws_ecs_service" "ecs-service" {
-    name = "service"
-    cluster=aws_ecs_cluster.test.id
-    task_definition = aws_ecs_task_definition.task-.arn
+    cluster=aws_ecs_cluster.test.arn
+    name = "service-name"
+    
+    task_definition = aws_ecs_task_definition.task-foto.arn
+    #task_definition = "arn:aws:ecs:us-east-1:190177667055:task-definition/latest:9"
     desired_count = 2
     scheduling_strategy = "REPLICA"
     launch_type = "FARGATE"
@@ -87,7 +140,7 @@ resource "aws_ecs_service" "ecs-service" {
       container_name = "tmp3"
       container_port = 9090
     }
-
-
+  
   
 }
+
