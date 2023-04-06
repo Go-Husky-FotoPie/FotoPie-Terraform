@@ -40,6 +40,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     
     - name: Terraform provision AWS resources
+      working-directory: applications
       run: |
          terraform init -backend-config=backend_uat.conf
          terraform apply -var-file backend-uat.tfvars --auto-approve
@@ -62,9 +63,10 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.FOTOPIE_AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.FOTOPIE_AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+        aws-region: ${{ secrets.AWS_REGION }}  
     
     - name: Terraform provision AWS resources
+      working-directory: applications
       run: |
          terraform init -backend-config=backend_prod.conf
          terraform apply -var-file backend-prod.tfvars --auto-approve
@@ -90,6 +92,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     
     - name: Terraform deprovision AWS resources
+      working-directory: applications
       run: |
         terraform init -backend-config=backend_uat.conf
         terraform destroy -var-file backend-uat.tfvars --auto-approve
@@ -115,6 +118,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     
     - name: Terraform deprovision AWS resources
+      working-directory: applications
       run: |
         terraform init -backend-config=backend_prod.conf
         terraform destroy -var-file backend-prod.tfvars --auto-approve
