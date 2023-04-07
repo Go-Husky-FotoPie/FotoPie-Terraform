@@ -40,7 +40,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     
     - name: Terraform provision AWS resources
-      working-directory: FotoPie-bed/applications
+      working-directory: fotopie-bed/applications
       run: |
          terraform init -backend-config=backend_uat.conf
          terraform apply -var-file backend-uat.tfvars --auto-approve
@@ -66,7 +66,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}  
     
     - name: Terraform provision AWS resources
-      working-directory: FotoPie-bed/applications
+      working-directory: fotopie-bed/applications
       run: |
          terraform init -backend-config=backend_prod.conf
          terraform apply -var-file backend-prod.tfvars --auto-approve
@@ -92,7 +92,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     
     - name: Terraform deprovision AWS resources
-      working-directory: FotoPie-bed/applications
+      working-directory: fotopie-bed/applications
       run: |
         terraform init -backend-config=backend_uat.conf
         terraform destroy -var-file backend-uat.tfvars --auto-approve
@@ -118,7 +118,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     
     - name: Terraform deprovision AWS resources
-      working-directory: FotoPie-bed/applications
+      working-directory: fotopie-bed/applications
       run: |
         terraform init -backend-config=backend_prod.conf
         terraform destroy -var-file backend-prod.tfvars --auto-approve
