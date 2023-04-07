@@ -171,3 +171,9 @@ variable "aws_user_id" {
   description = "user id for aws SSO."
   default     = ["0458d4e8-d071-7083-8bf6-c4ea41f8c4e8"]
 }
+
+variable "domain_name" {
+  description = "domain name for route53 hosted zone"
+  default = "uat.fotopie.net"
+
+}

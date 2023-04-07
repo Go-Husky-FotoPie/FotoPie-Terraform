@@ -20,3 +20,7 @@ variable "fotopie_target_group_name" {
 variable "vpc_id" {
   
 }
+
+variable "domain_name" {
+
+}

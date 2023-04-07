@@ -17,6 +17,7 @@ fotopieAlb_name = "fotopieALB-uat"
 fotopie_target_group_name = "fotopieTargetGroup-uat"
 fotopie_alb_sg = "fotopie_alb_sg_uat"
 fotopie_ecs_service_sg = "fotopie_ecs_service_sg_uat"
+domain_name = "uat.fotopie.net"
 
 
 
