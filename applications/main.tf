@@ -70,6 +70,7 @@ module "FotoPie_alb" {
   environment = var.environment
   fotopie_target_group_name = var.fotopie_target_group_name
   vpc_id = module.vpc.vpc_id
+  domain_name = var.domain_name
   
 }
 
