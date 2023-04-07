@@ -40,7 +40,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     
     - name: Terraform provision AWS resources
-      working-directory: applications
+      working-directory: FotoPie-Backend-Infra/applications
       run: |
          terraform init -backend-config=backend_uat.conf
          terraform apply -var-file backend-uat.tfvars --auto-approve
