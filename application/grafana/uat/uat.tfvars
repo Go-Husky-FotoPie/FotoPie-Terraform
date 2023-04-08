@@ -1,0 +1,1 @@
+grafana_workspace_name = "uat-fotopie-grafana"
