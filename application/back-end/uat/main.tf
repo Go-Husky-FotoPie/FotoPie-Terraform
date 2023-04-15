@@ -1,3 +1,24 @@
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "3.19.0"
+  name = var.vpc_name
+  cidr = var.vpc_cidr_block
+
+  azs             = var.azs_zone
+  private_subnets = var.private_subnets_cidr
+  public_subnets  = var.public_subnets_cidr
+
+  enable_nat_gateway = true
+  create_igw = true
+
+  tags = {
+     Terraform = "true"
+     Environment = var.environment
+  }
+}
+
+
+
 module "networking_ecs" {
   source = "../../../modules/backend"
 
