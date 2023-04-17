@@ -23,11 +23,11 @@ variable "public_subnets_cidr" {
     default = ["172.10.11.0/24", "172.10.12.0/24", "172.10.13.0/24"]
 }
 
-variable "single_nat_gateway" {
-  description = "If enable single nat gateway for private subnets"
-  default = true
+# variable "single_nat_gateway" {
+#   description = "If enable single nat gateway for private subnets"
+#   default = true
   
-}
+# }
 
 variable "application-loadbalancer-security-group" {
   description = "security group name for ALB"

@@ -1,6 +1,6 @@
 environment = "uat"
 fotopie_vpc = "fotopie-vpc-uat"
-single_nat_gateway = true
+# single_nat_gateway = true
 application-loadbalancer-security-group = "alb-sg-uat"
 ecs-service-security-group = "ecs-sg-uat"
 grafana-security-group = "fotopie_grafana_sg_uat"

@@ -1,6 +1,6 @@
 environment = "prod"
 fotopie_vpc = "fotopie-vpc-prod"
-single_nat_gateway = false
+# single_nat_gateway = false
 application-loadbalancer-security-group = "alb-sg-prod"
 ecs-service-security-group = "ecs-sg-prod"
 grafana-security-group = "fotopie_grafana_sg_prod"
